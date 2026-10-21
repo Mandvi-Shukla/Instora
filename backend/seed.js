@@ -6,9 +6,9 @@ const bcrypt = require('bcryptjs');
 const User = require('./src/models/User');
 
 const NEW_ADMIN = {
-  username: 'deepak@0707',
-  password: '77@kelikunj',
-  fullName: 'Deepak', // change if you want a different display name
+  username: 'mandvi',
+  password: '123456789',
+  fullName: 'Mandvi', // change if you want a different display name
 };
 
 const run = async () => {

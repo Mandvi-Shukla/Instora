@@ -27,7 +27,20 @@ const paidLearnerRoutes = require('./routes/paidLearnerRoutes');
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
+// app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
+
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://instora-beige.vercel.app',
+  'https://instora-mocha.vercel.app',
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 
 // Increased to 10 mb to allow base64 image/voice payloads in doubt messages
 app.use(express.json({ limit: '10mb' }));
