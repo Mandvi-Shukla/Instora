@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -26,33 +25,32 @@ const paidLearnerRoutes = require('./routes/paidLearnerRoutes');
 
 const app = express();
 
-app.use(helmet());
-
-// CORS configuration using environment variables.
-// Supports multiple comma-separated frontend URLs.
-const allowedOrigins = (
-  process.env.CLIENT_URL || 'http://localhost:5173'
-)
-  .split(',')
-  .map(origin => origin.trim().replace(/\/+$/, ''))
-  .filter(Boolean);
+// Configure CORS before other middleware and routes.
+const allowedOrigins = [
+  'https://instora-beta.vercel.app',
+  'http://localhost:5173',
+];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests without an Origin header, such as server-to-server requests.
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin.replace(/\/+$/, ''))) {
       return callback(null, true);
     }
 
+    console.error(`CORS blocked origin: ${origin}`);
     return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
 
-// Handle JSON requests up to 10 MB for image/voice payloads.
+app.use(helmet());
+
+// Handle JSON requests up to 10 MB.
 app.use(express.json({ limit: '10mb' }));
 
-// NoSQL injection guard — checks keys only so user text containing $ is allowed.
+// NoSQL injection guard.
 const hasInjection = (obj) => {
   if (typeof obj !== 'object' || obj === null) return false;
 
