@@ -246,4 +246,4 @@ VITE_RAZORPAY_KEY_ID=your_razorpay_key_id
 
 ## Author
 
-**Deepak** — Final-year B.Tech student, Mathematics & Computing, Delhi Technological University (DTU)
+**Mandvi Shukla** — Final-year B.Tech student, Computer Science Engineering, Delhi Technological University (DTU)
